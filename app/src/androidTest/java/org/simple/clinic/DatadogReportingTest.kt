@@ -1,13 +1,15 @@
 package org.simple.clinic
 
+import android.os.Build
 import datadog.opentracing.DDTracer
+import io.opentracing.Tracer
 import io.opentracing.util.GlobalTracer
 import org.junit.Test
 import java.util.Properties
 
 class DatadogReportingTest {
 
-  private val tracer: DDTracer
+  private val tracer: Tracer
 
   init {
     val properties = Properties().apply {
@@ -26,6 +28,17 @@ class DatadogReportingTest {
 
   @Test
   fun time_taken_must_be_reported_to_dd() {
+    val span = tracer.buildSpan("TestDatadogIntegration").start().apply {
+      setTag("os_version", Build.VERSION.SDK_INT)
+      setTag("os_build", Build.VERSION.BASE_OS)
+      setTag("device_model", Build.MODEL)
+      setTag("device_brand", Build.BRAND)
+    }
 
+    Thread.sleep(2000L)
+
+    span.finish()
+
+    tracer.close()
   }
 }
