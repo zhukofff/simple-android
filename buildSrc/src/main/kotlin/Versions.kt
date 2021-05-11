@@ -87,6 +87,7 @@ object Versions {
 
   // Perf regression test suite monitoring
   const val openTracing = "0.33.0"
+  const val datadogTrace = "0.80.0"
 }
 
 val versions = Versions

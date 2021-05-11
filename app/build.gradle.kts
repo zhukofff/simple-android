@@ -462,6 +462,8 @@ dependencies {
   // Perf regression testing
   androidTestImplementation("io.opentracing:opentracing-api:${versions.openTracing}")
   androidTestImplementation("io.opentracing:opentracing-util:${versions.openTracing}")
+  androidTestImplementation("com.datadoghq:dd-trace-api:${versions.datadogTrace}")
+  androidTestImplementation("com.datadoghq:dd-trace-ot:${versions.datadogTrace}")
 }
 
 // This must always be present at the bottom of this file, as per:
