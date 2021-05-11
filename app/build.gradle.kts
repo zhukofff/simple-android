@@ -458,6 +458,10 @@ dependencies {
   implementation("androidx.core:core-ktx:${versions.androidXCoreKtx}")
 
   implementation("org.threeten:threeten-extra:${versions.threetenExtra}")
+
+  // Perf regression testing
+  androidTestImplementation("io.opentracing:opentracing-api:${versions.openTracing}")
+  androidTestImplementation("io.opentracing:opentracing-util:${versions.openTracing}")
 }
 
 // This must always be present at the bottom of this file, as per:
