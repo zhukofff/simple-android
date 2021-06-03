@@ -12,6 +12,7 @@
 - Add NHID support in `PatientEntryScreen`
 - Use `PatientPrefillInfo` for prefilling patient entry information
 - Show NHID in `PatientEntryScreen`
+- Add training videos depending on language for `Amharic` and `Oromo`
 
 ## 2021-05-31-7801
 ### Internal
