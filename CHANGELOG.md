@@ -16,6 +16,10 @@
 ### Changes
 - Updated translations: `hi-IN`, `bn-BD`, `te-IN`, `bn-IN`, `am-ET`, `pa-IN`, `ti-ET`, `kn-IN`, `mr-IN`, `ta-IN`, `so-ET`, `om-ET`
 - New supported language: Sidama [`sid-ET`]
+- [In Progress: 17 Jun 2021] Overdue list improvements
+  - Change overdue list UI
+  - Load overdue patients without phone number  
+  - Add option to download & share overdue list
 
 ## 2021-06-16-7826
 ### Internal
