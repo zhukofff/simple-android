@@ -128,10 +128,26 @@ data class OverdueAppointment(
         IFNULL(patientAssignedFacilityUuid, appt_facilityUuid) = :facilityUuid 
         AND (appt_scheduledDate < :scheduledBefore AND appt_scheduledDate > :scheduledAfter)
         AND (appt_remindOn < :scheduledBefore OR appt_remindOn IS NULL)
+        AND phone_number IS NOT NULL
         GROUP BY appt_patientUuid
         ORDER BY isAtHighRisk DESC, appt_scheduledDate DESC, appt_updatedAt ASC
     """)
     fun overdueInFacilityPagingSource(
+        facilityUuid: UUID,
+        scheduledBefore: LocalDate,
+        scheduledAfter: LocalDate
+    ): PagingSource<Int, OverdueAppointment>
+
+    @Query("""
+      SELECT * FROM OverdueAppointment
+      WHERE 
+        IFNULL(patientAssignedFacilityUuid, appt_facilityUuid) = :facilityUuid 
+        AND (appt_scheduledDate < :scheduledBefore AND appt_scheduledDate > :scheduledAfter)
+        AND (appt_remindOn < :scheduledBefore OR appt_remindOn IS NULL)
+        GROUP BY appt_patientUuid
+        ORDER BY isAtHighRisk DESC, appt_scheduledDate DESC, appt_updatedAt ASC
+    """)
+    fun overdueInFacilityPagingSource2(
         facilityUuid: UUID,
         scheduledBefore: LocalDate,
         scheduledAfter: LocalDate

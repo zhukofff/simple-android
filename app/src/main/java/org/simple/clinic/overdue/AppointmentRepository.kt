@@ -129,6 +129,18 @@ class AppointmentRepository @Inject constructor(
         )
   }
 
+  fun overdueAppointmentsInFacility2(
+      since: LocalDate,
+      facilityId: UUID
+  ): PagingSource<Int, OverdueAppointment> {
+    return overdueDao
+        .overdueInFacilityPagingSource2(
+            facilityUuid = facilityId,
+            scheduledBefore = since,
+            scheduledAfter = since.minus(appointmentConfig.periodForIncludingOverdueAppointments)
+        )
+  }
+
   fun overdueAppointmentsCount(
       since: LocalDate,
       facility: Facility
