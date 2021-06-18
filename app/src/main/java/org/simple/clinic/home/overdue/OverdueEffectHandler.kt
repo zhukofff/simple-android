@@ -29,7 +29,8 @@ class OverdueEffectHandler @AssistedInject constructor(
     return RxMobius
         .subtypeEffectHandler<OverdueEffect, OverdueEvent>()
         .addTransformer(LoadCurrentFacility::class.java, loadCurrentFacility())
-        .addTransformer(LoadOverdueAppointments_old::class.java, loadOverdueAppointments())
+        .addTransformer(LoadOverdueAppointments_old::class.java, loadOverdueAppointments_old())
+        .addTransformer(LoadOverdueAppointments::class.java, loadOverdueAppointments())
         .addConsumer(OpenContactPatientScreen::class.java, { uiActions.openPhoneMaskBottomSheet(it.patientUuid) }, schedulers.ui())
         .addConsumer(OpenPatientSummary::class.java, { uiActions.openPatientSummary(it.patientUuid) }, schedulers.ui())
         .addConsumer(ShowOverdueAppointments::class.java, ::showOverdueAppointments, schedulers.ui())
@@ -51,7 +52,7 @@ class OverdueEffectHandler @AssistedInject constructor(
     }
   }
 
-  private fun loadOverdueAppointments(): ObservableTransformer<LoadOverdueAppointments_old, OverdueEvent> {
+  private fun loadOverdueAppointments_old(): ObservableTransformer<LoadOverdueAppointments_old, OverdueEvent> {
     return ObservableTransformer { effects ->
       effects
           .observeOn(schedulers.io())
@@ -59,6 +60,27 @@ class OverdueEffectHandler @AssistedInject constructor(
             pagerFactory.createPager(
                 sourceFactory = {
                   appointmentRepository.overdueAppointmentsInFacility_old(
+                      since = overdueSince,
+                      facilityId = facility.uuid
+                  )
+                },
+                pageSize = overdueAppointmentsConfig.overdueAppointmentsLoadSize
+            )
+          }
+          .map { pagingData ->
+            OverdueAppointmentsLoaded(pagingData)
+          }
+    }
+  }
+
+  private fun loadOverdueAppointments(): ObservableTransformer<LoadOverdueAppointments, OverdueEvent> {
+    return ObservableTransformer { effects ->
+      effects
+          .observeOn(schedulers.io())
+          .switchMap { (overdueSince, facility) ->
+            pagerFactory.createPager(
+                sourceFactory = {
+                  appointmentRepository.overdueAppointmentsInFacility(
                       since = overdueSince,
                       facilityId = facility.uuid
                   )
