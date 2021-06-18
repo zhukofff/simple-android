@@ -14,6 +14,7 @@
 - Paginate overdue appointments list
 - Fix instant search error views overlapping each other
 - Remove usage of deprecated constructor from `MobiusDelegate`
+- Change `CrashReporter` to be a facade instead of a discrete interface
 
 ### Changes
 - Updated translations: `hi-IN`, `bn-BD`, `te-IN`, `bn-IN`, `am-ET`, `pa-IN`, `ti-ET`, `kn-IN`, `mr-IN`, `ta-IN`, `so-ET`, `om-ET`
